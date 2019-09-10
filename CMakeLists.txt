@@ -10,13 +10,16 @@ INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIRS})
 LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 
 SET(CLANG_CPP_VERSION_FLAGS "-std=c++17")
-
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CLANG_CPP_VERSION_FLAGS}")
 
 include(CTest)
 enable_testing()
 
-add_executable(example_daytime src/main.cpp src/client.cpp src/server.cpp)
+# Packages that the application depends on
+add_subdirectory(src/daytime)
+
+add_executable(example_daytime src/main.cpp)
+target_link_libraries(example_daytime daytime)
 
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
