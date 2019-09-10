@@ -26,24 +26,15 @@ std::string client::query_daytime() const {
           udp::v4(), hostname_, "daytime",
           boost::asio::use_future);
 
-    assert(endpoints.valid());
-
     // The async_resolve operation above returns the endpoints as a future
     // value that is not retrieved ...
 
-    endpoints.wait();
-    
-    auto dns_result = endpoints.get();// ... until here. This call may block.
-    if (dns_result.empty()){
-        throw std::runtime_error("Could not resolve hostname " + hostname_);
-    }
-
     udp::socket socket(io_context_, udp::v4());
 
-    std::array<char, 1> send_buf  = {{ 0 }};
+    std::array<char, 1> send_buf  = {{ 8 }};
     std::future<std::size_t> send_length =
       socket.async_send_to(boost::asio::buffer(send_buf),
-          *dns_result.begin(), 
+          *endpoints.get().begin(), // ... until here
           boost::asio::use_future);
 
     // Do other things here while the send completes.
