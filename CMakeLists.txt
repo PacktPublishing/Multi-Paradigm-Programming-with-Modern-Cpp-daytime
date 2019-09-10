@@ -19,6 +19,7 @@ enable_testing()
 add_subdirectory(src/daytime)
 
 add_executable(example_daytime src/main.cpp)
+target_include_directories(example_daytime PRIVATE src/daytime)
 target_link_libraries(example_daytime daytime)
 
 
