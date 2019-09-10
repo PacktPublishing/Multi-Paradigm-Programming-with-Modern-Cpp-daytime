@@ -3,12 +3,14 @@
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/ip/udp.hpp>
 #include <boost/asio/use_future.hpp>
+#include <string>
 
 using namespace daytime;
 
-client::client(boost::asio::io_context &io_context, std::string server_hostname)
+client::client(boost::asio::io_context &io_context, std::string server_hostname, short port)
 : hostname_{std::move(server_hostname)}
-, io_context_{io_context} {
+, io_context_{io_context}
+, port_{port} {
 
 }
 
@@ -23,13 +25,13 @@ std::string client::query_daytime() const {
 
     std::future<udp::resolver::results_type> endpoints =
       resolver.async_resolve(
-          udp::v4(), hostname_, "daytime",
+          udp::v4(), hostname_, std::to_string(port_),
           boost::asio::use_future);
 
     // The async_resolve operation above returns the endpoints as a future
     // value that is not retrieved ...
 
-    udp::socket socket(io_context_, udp::v4());
+    udp::socket socket{io_context_, udp::v4()};
 
     std::array<char, 1> send_buf  = {{ 8 }};
     std::future<std::size_t> send_length =

@@ -5,7 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(lldb) Launch",
+            "name": "(lldb) Launch server",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/example_daytime",
+            "args": ["-server"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb"
+        },
+        {
+            "name": "(lldb) Launch client",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/build/example_daytime",
@@ -16,5 +28,6 @@
             "externalConsole": false,
             "MIMode": "lldb"
         }
+ 
     ]
 }
