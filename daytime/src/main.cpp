@@ -1,6 +1,6 @@
-#include "scope_guard.h"
-#include "client.h"
-#include "server.h"
+#include "helpers/scope_guard.h"
+#include "daytime/client.h"
+#include "daytime/server.h"
 
 #include <iostream>
 #include <thread>
