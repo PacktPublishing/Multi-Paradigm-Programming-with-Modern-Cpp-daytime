@@ -1,5 +1,6 @@
 #include "daytime/server.h"
 
+#include <boost/asio/ip/udp.hpp>
 #include <chrono>
 #include <ctime>
 #include <string>
@@ -16,14 +17,20 @@ namespace daytime::detail {
         return std::ctime(&cnow);
     }
 }
-        
-server::server(boost::asio::io_context &io_context, short port)
-: socket_{io_context, udp::endpoint(udp::v4(), port)} {
-    start_receive();
-}
 
-void server::start_receive(){
-    socket_.async_receive_from(
+struct server::impl{
+    boost::asio::ip::udp::socket socket_;
+    boost::asio::ip::udp::endpoint remote_endpoint_;
+    std::array<char, 1> recv_buffer_;
+
+    impl(boost::asio::io_context &io_context, short port)
+    : socket_{io_context, udp::endpoint(udp::v4(), port)}
+    {
+
+    }
+
+    void start_receive(){
+        socket_.async_receive_from(
         boost::asio::buffer(recv_buffer_), remote_endpoint_,
         [this](const boost::system::error_code &error, size_t){
             if (error && error != boost::asio::error::message_size)
@@ -43,4 +50,16 @@ void server::start_receive(){
             start_receive();
         }
     );
+    }
+};
+        
+server::server(boost::asio::io_context &io_context, short port)
+: impl_{std::make_unique<server::impl>(io_context, port)}{
+    impl_->start_receive();
+}
+
+server::~server() = default;
+
+int server::get_value() const {
+    return 42;
 }

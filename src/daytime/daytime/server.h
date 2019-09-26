@@ -1,7 +1,8 @@
 #ifndef SERVER_H
 #define SERVER_H
 
-#include <boost/asio/ip/udp.hpp>
+#include <memory>
+#include <experimental/propagate_const>
 
 // Forward declarations
 namespace boost::asio{ 
@@ -13,10 +14,11 @@ namespace daytime {
     class server {
         public:
         server(boost::asio::io_context &io_context, short port);
-        ~server() = default;
+        ~server();
+
+        int get_value() const;
 
         private:
-        void start_receive();
 
         server() = delete;
         server(const server&) = delete;
@@ -24,9 +26,8 @@ namespace daytime {
         server &operator = (const server&) = delete;
         server &operator = (server&&) = delete;
 
-        boost::asio::ip::udp::socket socket_;
-        boost::asio::ip::udp::endpoint remote_endpoint_;
-        std::array<char, 1> recv_buffer_;
+        struct impl;
+        std::experimental::propagate_const<std::unique_ptr<impl>> impl_;
     };
 }
 
