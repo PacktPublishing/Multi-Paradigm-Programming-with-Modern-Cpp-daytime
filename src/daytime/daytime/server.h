@@ -17,8 +17,6 @@ namespace daytime {
 
         private:
         void start_receive();
-        void handle_receive();
-        void handle_send();
 
         server() = delete;
         server(const server&) = delete;
