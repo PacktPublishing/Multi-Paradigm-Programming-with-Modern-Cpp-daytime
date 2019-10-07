@@ -1,6 +1,7 @@
 #include "helpers/scope_guard.h"
 #include "daytime/client.h"
 #include "daytime/server.h"
+#include "helpers/logger.h"
 
 #include <iostream>
 #include <thread>
@@ -8,6 +9,10 @@
 #include <boost/asio/executor_work_guard.hpp>
 
 int main(int argc, char *argv[]){
+
+    using namespace helpers;
+    auto log = logger::get_logger();
+    log.write(log_level::debug, "Starting up");
 
     auto run_server = argc > 1 && std::string{argv[1]} == "-server";
     constexpr short port = 1234;
@@ -28,6 +33,8 @@ int main(int argc, char *argv[]){
         }};
 
         if (run_server){
+            write_log(log, log_level::info, "Server mode selected. Begin listening on port", port);
+
             // Server mode; will run until process is killed
             daytime::server server {io_context, port};
             thread.join();
@@ -45,6 +52,7 @@ int main(int argc, char *argv[]){
     catch (std::exception &ex)
     {
         std::cerr << "Error: " << ex.what() << std::endl;
+        write_log(log, log_level::error, "An exception has occurred: ", ex.what());
         return 1;
     }
 

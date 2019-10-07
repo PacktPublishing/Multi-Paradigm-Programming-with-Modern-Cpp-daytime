@@ -4,6 +4,9 @@
     "C_Cpp.intelliSenseEngine": "Tag Parser",
     "files.associations": {
         "stdexcept": "cpp",
-        "functional": "cpp"
+        "functional": "cpp",
+        "ostream": "cpp",
+        "__locale": "cpp",
+        "locale": "cpp"
     }
 }

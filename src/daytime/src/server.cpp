@@ -10,7 +10,7 @@ using namespace boost::asio::ip;
 
 namespace daytime::detail {
     // Get current time and format according to our protocol
-    std::string get_now_string(){
+    static std::string get_now_string(){
         using namespace std::chrono;
         auto now = system_clock::now();
         auto cnow = system_clock::to_time_t(now);
