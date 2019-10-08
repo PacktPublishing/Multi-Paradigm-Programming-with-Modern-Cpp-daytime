@@ -5,16 +5,33 @@
 
 #include <iostream>
 #include <thread>
+#include <span>
+#include <string_view>
+
 #include <boost/asio/io_context.hpp>
 #include <boost/asio/executor_work_guard.hpp>
 
+using namespace helpers;
+
 int main(int argc, char *argv[]){
 
-    using namespace helpers;
+    auto run_server = false;
     auto log = logger::get_logger();
+
+    if (argc > 1)
+    {
+        for (std::string_view arg : std::span{&argv[1], static_cast<size_t>(argc - 1)})
+        {
+            if (arg == "-server")
+                run_server = true;
+
+            if (arg == "-debug")
+                log.set_level(log_level::debug);
+        }
+    }
+
     log.write(log_level::debug, "Starting up");
 
-    auto run_server = argc > 1 && std::string{argv[1]} == "-server";
     constexpr short port = 1234;
 
     try
@@ -33,7 +50,8 @@ int main(int argc, char *argv[]){
         }};
 
         if (run_server){
-            write_log(log, log_level::info, "Server mode selected. Begin listening on port", port);
+
+            write_log(log, log_level::info, "Listening on port ", port);
 
             // Server mode; will run until process is killed
             daytime::server server {io_context, port};
