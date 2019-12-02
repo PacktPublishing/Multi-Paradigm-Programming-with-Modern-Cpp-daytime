@@ -14,7 +14,9 @@ namespace daytime {
     // A simple daytime client
     class client {
         public:
-        client(boost::asio::io_context &io_context, std::string server_hostname, short server_port);
+        client(boost::asio::io_context &io_context,
+               std::string server_hostname,
+               short server_port);
         ~client() = default;
 
         client(const client &) = delete;

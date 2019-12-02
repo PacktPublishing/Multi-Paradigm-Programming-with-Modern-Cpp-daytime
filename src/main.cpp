@@ -1,6 +1,6 @@
 #include "helpers/scope_guard.h"
 #include "daytime/client.h"
-#include "daytime/server.h"
+#include "daytime/daytime_server.h"
 #include "helpers/logger.h"
 
 #include <iostream>
@@ -20,7 +20,7 @@ int main(int argc, char *argv[]){
 
     if (argc > 1)
     {
-        for (std::string_view arg : std::span{&argv[1], static_cast<size_t>(argc - 1)})
+        for (std::string_view arg : std::span{&argv[1], argc - 1})
         {
             if (arg == "-server")
                 run_server = true;
@@ -54,7 +54,8 @@ int main(int argc, char *argv[]){
             write_log(log, log_level::info, "Listening on port ", port);
 
             // Server mode; will run until process is killed
-            daytime::server server {io_context, port};
+            daytime::daytime_server server {io_context, port};
+            server.start();
             thread.join();
         }
         else {

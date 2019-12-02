@@ -38,7 +38,7 @@ namespace helpers {
         //! Messages with higher level will be ignored by the logger
         void set_level(log_level level);
 
-        //! Write a message to the log, ignore the message if the current log level is low
+        //! Write a message to the log, unless the current log level is lower
         void write(log_level level, const std::string &msg) const;
 
         private:

@@ -18,10 +18,12 @@ enable_testing()
 # Packages that the application depends on
 add_subdirectory(src/daytime)
 add_subdirectory(src/helpers)
+add_subdirectory(src/network)
 
 add_executable(example_daytime src/main.cpp)
 target_include_directories(example_daytime PRIVATE src/daytime)
-target_link_libraries(example_daytime daytime helpers)
+target_include_directories(example_daytime PRIVATE src/network)
+target_link_libraries(example_daytime daytime helpers network)
 
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

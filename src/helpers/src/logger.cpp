@@ -34,18 +34,29 @@ struct logger::logger_impl{
     std::ofstream stream;
 };
 
-//! Get logger singleton
+//! Get logger singleton. Throws if log cannot be accessed
 logger logger::get_logger(){
     static logger singleton;
     if (!singleton.impl_){
         auto impl = std::make_shared<logger::logger_impl>();
         impl->stream.open("log.txt", std::ios_base::app);
+        if (!impl->stream.is_open()){
+            throw std::runtime_error{"Cannot open a log"};
+        }
         singleton.impl_ = impl;
     }
     return singleton;
 }
 
+// Function is const:
+//      Writing to log does not change logger state
+// Message is const&:
+//      Caller gets a guarantee that the string won't change
+
 void logger::write(log_level level, const std::string &message) const {
+
+    assert(impl_);
+
     if (level > impl_->level)
         return;
 
@@ -60,9 +71,11 @@ void logger::write(log_level level, const std::string &message) const {
 }
 
 log_level logger::get_level() const {
+    assert(impl_);
     return impl_->level;
 }
 
 void logger::set_level(log_level level) {
+    assert(impl_);
     impl_->level = level;
 }
