@@ -2,6 +2,7 @@
 #define DAYTIME_SERVER_IMPL
 
 #include "network/detail/udp_server_impl.h"
+#include <string>
 
 namespace daytime::detail {
 
@@ -11,6 +12,8 @@ namespace daytime::detail {
 
         bool on_error(const boost::system::error_code &error) override;
         void on_receive(const std::string &, const boost::asio::ip::udp::endpoint &remote_endpoint) override;
+
+        std::string get_now_string() const;
 
         std::string response_format_;
     };
