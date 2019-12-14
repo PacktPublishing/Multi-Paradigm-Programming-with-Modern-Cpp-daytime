@@ -43,6 +43,18 @@ void udp_server_impl::start_receive_async(){
         });
 }
 
+void udp_server_impl::send_message_async(std::shared_ptr<std::string> message,
+                         const boost::asio::ip::udp::endpoint &remote_endpoint,
+                         const std::function<void(boost::system::error_code)> &on_error){
+
+    // Capture message to ensure it lives long enough for data to be sent
+    socket_.async_send_to(boost::asio::buffer(*message), remote_endpoint,
+    [message](const boost::system::error_code &, size_t) noexcept {
+        // This handler is invoked when data has been sent
+        // Do nothing; optionally log an error if send failed
+    });
+}
+
 void udp_server_impl::stop_receive_async(){
     stopped_ = true;
 }

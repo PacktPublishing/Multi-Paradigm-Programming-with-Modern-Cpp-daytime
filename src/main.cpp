@@ -13,6 +13,16 @@
 
 using namespace helpers;
 
+constexpr short port = 1234;
+
+class server_factory{
+    public:
+    static std::unique_ptr<network::server> create_server(int argc, char *argv[], boost::asio::io_context &io_context){
+        //TODO: as we add support for various servers, initialize them here
+        return std::make_unique<daytime::daytime_server> (io_context, port);
+    }
+};
+
 int main(int argc, char *argv[]){
 
     auto run_server = false;
@@ -32,7 +42,6 @@ int main(int argc, char *argv[]){
 
     log.write(log_level::debug, "Starting up");
 
-    constexpr short port = 1234;
 
     try
     {
@@ -53,9 +62,16 @@ int main(int argc, char *argv[]){
 
             write_log(log, log_level::info, "Listening on port ", port);
 
-            // Server mode; will run until process is killed
-            daytime::daytime_server server {io_context, port};
-            server.start();
+            // Now we can construct any server type based on input arguments!
+            auto server = server_factory::create_server(argc, argv, io_context);
+            server->start();
+
+            std::cout << "Running in server mode. Press enter to exit";
+            std::cin.get();
+
+            server->stop();
+            io_context.stop();
+
             thread.join();
         }
         else {

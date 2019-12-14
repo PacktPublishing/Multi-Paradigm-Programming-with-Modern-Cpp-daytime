@@ -23,10 +23,15 @@ namespace network::detail{
 
         // Invoked when the server receives a datagram.
         // Implementations must override this callback.
-        // Implementations can write response directly into the socket
+        // Implementations can write response directly into the socket or call send_message_async
         virtual void on_receive(
             const std::string &data,
-            boost::asio::ip::udp::endpoint &remote_endpoint) = 0;
+            const boost::asio::ip::udp::endpoint &remote_endpoint) = 0;
+
+        // Send a datagram to the remote endpoint
+        void send_message_async(std::shared_ptr<std::string> message,
+            const boost::asio::ip::udp::endpoint &remote_endpoint,
+            const std::function<void(boost::system::error_code)> &on_error);
 
         void start_receive_async();
         void stop_receive_async();

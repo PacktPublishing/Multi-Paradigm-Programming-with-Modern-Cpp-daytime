@@ -10,7 +10,7 @@ namespace daytime::detail {
         daytime_server_impl(boost::asio::io_context &io_context, short port);
 
         bool on_error(const boost::system::error_code &error) override;
-        void on_receive(const std::string &, boost::asio::ip::udp::endpoint &remote_endpoint) override;
+        void on_receive(const std::string &, const boost::asio::ip::udp::endpoint &remote_endpoint) override;
 
         std::string response_format_;
     };

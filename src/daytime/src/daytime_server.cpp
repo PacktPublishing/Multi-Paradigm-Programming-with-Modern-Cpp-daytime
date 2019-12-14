@@ -31,16 +31,13 @@ bool daytime_server_impl::on_error(const boost::system::error_code &error){
     return false;
 }
 
-void daytime_server_impl::on_receive(const std::string &, boost::asio::ip::udp::endpoint &remote_endpoint){
+void daytime_server_impl::on_receive(const std::string &, const boost::asio::ip::udp::endpoint &remote_endpoint){
 
-    // Make a date string and send it to them
+    // Make a date string and send it to the client
     auto message = std::make_shared<std::string>(detail::get_now_string(response_format_));
-    // Capture message to ensure it lives long enough for data to be sent
-    socket_.async_send_to(boost::asio::buffer(*message), remote_endpoint,
-    [message](const boost::system::error_code &, size_t) noexcept {
-        // This handler is invoked when data has been sent
-        // Do nothing; optionally log an error if send failed
-    });
+    send_message_async(message, remote_endpoint, [](const boost::system::error_code &) noexcept {
+        //TODO: add error handling
+    } );
 }
 
 
