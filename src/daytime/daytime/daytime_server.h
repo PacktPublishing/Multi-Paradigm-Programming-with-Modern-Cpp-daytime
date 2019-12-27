@@ -17,7 +17,7 @@ namespace daytime {
     }
 
     // A simple UDP daytime server
-    class daytime_server: public network::udp_server {
+    class daytime_server final: public network::udp_server {
         public:
         daytime_server(boost::asio::io_context &io_context, short port);
         ~daytime_server() override;

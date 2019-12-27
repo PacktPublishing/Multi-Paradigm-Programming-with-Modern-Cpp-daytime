@@ -17,11 +17,24 @@ constexpr short port = 1234;
 
 class server_factory{
     public:
-    static std::unique_ptr<network::server> create_server(int argc, char *argv[], boost::asio::io_context &io_context){
+    static std::shared_ptr<network::server> create_server(int argc, char *argv[], boost::asio::io_context &io_context){
         //TODO: as we add support for various servers, initialize them here
-        return std::make_unique<daytime::daytime_server> (io_context, port);
+        auto server = std::make_shared<daytime::daytime_server> (io_context, port);
+        all_servers_.emplace_back(server);
+        return server;
     }
+
+    static void stop_all_servers(){
+        for (auto &srv: all_servers_){
+            if (auto srv_shared_ptr = srv.lock()){
+                srv->stop();
+            }
+        }
+    }
+    private:
+    static std::vector<std::weak_ptr<network::server>> all_servers_;
 };
+std::vector<std::weak_ptr<network::server>> server_factory::all_servers_;
 
 int main(int argc, char *argv[]){
 
