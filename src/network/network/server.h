@@ -1,6 +1,7 @@
 #ifndef NETWORK_SERVER_H
 #define NETWORK_SERVER_H
 
+#include <functional>
 
 namespace network{
 
@@ -11,6 +12,9 @@ namespace network{
         public:
         server() = default;
         virtual ~server() = default;
+
+        using error_callback = std::function<void(const std::string &)>;
+        virtual void do_on_error(const error_callback &callback) = 0;
 
         server(const server&) = delete;
         server(server&&) = delete;

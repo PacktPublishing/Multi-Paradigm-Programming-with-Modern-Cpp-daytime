@@ -1,5 +1,6 @@
 #include "logger.h"
 #include <fstream>
+#include <cassert>
 
 namespace helpers{
     //! Convert log level into string

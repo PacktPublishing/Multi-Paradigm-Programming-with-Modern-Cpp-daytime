@@ -38,6 +38,7 @@ namespace network::detail{
 
         // Derived implementations can access the socket
         boost::asio::ip::udp::socket socket_;
+        server::error_callback error_callback_;
 
         private:
         // We don't want implementations to change buffer size

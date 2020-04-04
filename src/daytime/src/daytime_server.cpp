@@ -13,6 +13,8 @@ daytime_server_impl::daytime_server_impl(boost::asio::io_context &io_context, sh
 
 bool daytime_server_impl::on_error(const boost::system::error_code &error){
     // always stop on error
+    if (error_callback_)
+        error_callback_("An error has occurred");
     return false;
 }
 

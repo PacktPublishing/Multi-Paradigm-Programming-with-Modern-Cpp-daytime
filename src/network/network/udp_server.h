@@ -19,6 +19,7 @@ namespace network {
 
         void start() override;
         void stop() override;
+        void do_on_error(const error_callback &callback) override;
 
         protected:
         std::experimental::propagate_const<std::unique_ptr<detail::udp_server_impl>> impl_;

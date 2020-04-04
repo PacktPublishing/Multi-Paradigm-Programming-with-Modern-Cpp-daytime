@@ -1,4 +1,3 @@
-
 struct X{};
 
 
@@ -459,4 +458,23 @@ int main(int argc, char *argv[]){
     return 0;
 }
 
+class scene{
+public:
+    class rectangle{};
+    rectangle get_rectangle() const;
+};
+
+scene::rectangle scene::get_rectangle(){
+
+}
+
+class scene{
+public:
+    class rectangle{};
+    auto get_rectangle() -> rectangle const;
+};
+
+auto scene::get_rectangle() -> rectangle {
+
+}
 

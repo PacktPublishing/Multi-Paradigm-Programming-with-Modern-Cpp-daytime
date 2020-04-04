@@ -20,7 +20,7 @@ add_subdirectory(src/daytime)
 add_subdirectory(src/helpers)
 add_subdirectory(src/network)
 
-add_executable(example_daytime src/main.cpp)
+add_executable(example_daytime src/main.cpp src/scratch.cpp)
 target_include_directories(example_daytime PRIVATE src/daytime)
 target_include_directories(example_daytime PRIVATE src/network)
 target_link_libraries(example_daytime daytime helpers network)

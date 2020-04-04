@@ -8,6 +8,7 @@ using namespace network::detail;
 udp_server_impl::udp_server_impl(boost::asio::io_context &io_context, short port, size_t buffer_size)
     : socket_{io_context, udp::endpoint(udp::v4(), port)}
     , buffer_size_{buffer_size}
+    , error_callback_{[](const std::string &){}}
     { }
 
 void udp_server_impl::start_receive_async(){
@@ -69,4 +70,8 @@ void udp_server::start() {
 
 void udp_server::stop() {
     impl_->stop_receive_async();
+}
+
+void udp_server::do_on_error(const error_callback &callback){
+    impl_->error_callback_ = callback;
 }
