@@ -6,10 +6,14 @@ using namespace network;
 using namespace network::detail;
 
 udp_server_impl::udp_server_impl(boost::asio::io_context &io_context, short port, size_t buffer_size)
-    : socket_{io_context, udp::endpoint(udp::v4(), port)}
+    : socket_{io_context, udp::v4()}
     , buffer_size_{buffer_size}
     , error_callback_{[](const std::string &){}}
-    { }
+    {
+        boost::asio::socket_base::reuse_address option{true};
+        socket_.set_option(option);
+        socket_.bind(udp::endpoint(udp::v4(), port));
+    }
 
 void udp_server_impl::start_receive_async(){
     stopped_ = false;

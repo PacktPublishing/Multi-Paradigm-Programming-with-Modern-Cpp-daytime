@@ -109,7 +109,6 @@ class program{
 
     void run_server(boost::asio::io_context &io_context)
     {
-
         write_log(log_, log_level::info, "Listening on port ", port);
 
         // Now we can construct any server type based on input arguments!
