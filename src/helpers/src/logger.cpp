@@ -1,6 +1,7 @@
 #include "logger.h"
 #include <fstream>
 #include <cassert>
+#include <thread>
 
 namespace helpers{
     //! Convert log level into string
@@ -32,6 +33,7 @@ using namespace helpers;
 //! Logger implementation
 struct logger::logger_impl{
     log_level level = log_level::default_level;
+    std::mutex mutex;
     std::ofstream stream;
 };
 
@@ -60,6 +62,8 @@ void logger::write(log_level level, const std::string &message) const {
 
     if (level > impl_->level)
         return;
+
+    std::scoped_lock lock{impl_->mutex};
 
     impl_->stream
         << "["

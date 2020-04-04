@@ -146,5 +146,16 @@ int main(int argc, char *argv[])
     auto log = create_logger(options);
     log.write(log_level::debug, "Starting up");
 
+    auto log_messages = [log]() mutable {
+        while(true){
+            write_log(log, log_level::info, "Message from thread ", std::this_thread::get_id());
+        }
+    };
+
+    for (int i = 0; i < 10; ++i){
+        std::thread t(log_messages);
+        t.detach();
+    }
+
     return program{options, log}.run();
 }
