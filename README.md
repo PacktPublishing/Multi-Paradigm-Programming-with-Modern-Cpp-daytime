@@ -16,7 +16,7 @@ https://github.com/PacktPublishing/Multi-Paradigm-Programming-with-Modern-Cpp-Ex
 <H2>What You Will Learn</H2>
 <DIV class=book-info-will-learn-text>
 <UL>
-<LI><SPAN style="BACKGROUND-COLOR: transparent"></SPAN> 
+<SPAN style="BACKGROUND-COLOR: transparent"></SPAN> 
 <LI> Take your C++ skills to the next level
 <LI>Learn different programming styles
 <LI>Get hands-on experience with useful design patterns
