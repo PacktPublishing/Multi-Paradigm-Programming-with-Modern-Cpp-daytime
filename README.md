@@ -28,7 +28,7 @@ https://github.com/PacktPublishing/Multi-Paradigm-Programming-with-Modern-Cpp-Ex
 
 ## Instructions and Navigation
 ### Assumed Knowledge
-.C++ developers, both beginners and professionals. Beginners will learn some of the best practices and get a deeper understanding of C++. The pros will strengthen their skills and get a better understanding of some topics that are not covered in popular literature. And everyone who wants to become proficient with the new features of C++20, will find this course interesting.
+C++ developers, both beginners and professionals. Beginners will learn some of the best practices and get a deeper understanding of C++. The pros will strengthen their skills and get a better understanding of some topics that are not covered in popular literature. And everyone who wants to become proficient with the new features of C++20, will find this course interesting.
 
 ## Related Products
 * [C# 8.0 and .NET Core 3.0 – Modern Cross-Platform Development - Fourth Edition](https://www.packtpub.com/in/mobile/c-8-0-and-net-core-3-0-modern-cross-platform-development-fourth-edition)
